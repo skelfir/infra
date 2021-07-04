@@ -1,0 +1,15 @@
+config:
+  digitalocean:token:
+    secure: AAABAOvE0G1FwZJueUJ6D1xptb1YEGoSoe+qB6/9Hk8ewxTN4mPGRK8wdr18Ge312m91gnfXXJnO+DiXpuY7aaRh0gK/Ozh0wjnhwap6osrzdX3VBKAacB7ptxR8Fjtj
+  infra:region: lon1
+  infra:db:
+    name: dev-db-2
+    image: rethinkdb-18-04
+    size: s-1vcpu-1gb
+  infra:cluster:
+    name: dev-cluster
+    version: 1.21.2-do.2
+    base_node_pool:
+      name: base
+      size: s-1vcpu-2gb
+      node_count: 1
