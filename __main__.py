@@ -3,8 +3,8 @@
 import pulumi
 
 import pulumi_digitalocean as do
-from pulumi_digitalocean import Region
-from pulumi_digitalocean import DropletSlug
+#from pulumi_digitalocean import Region
+#from pulumi_digitalocean import DropletSlug
 from pulumi_digitalocean import KubernetesCluster
 from pulumi_digitalocean import KubernetesNodePool
 
