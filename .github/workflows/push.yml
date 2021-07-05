@@ -1,6 +1,6 @@
 name: Pulumi
 on:
-  - push:
+  push:
     branches:
       - main
 jobs:
