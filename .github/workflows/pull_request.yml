@@ -18,7 +18,7 @@ jobs:
 #          aws-region: ${{ secrets.AWS_REGION }}
 #          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - run: pip install pipenv
-      - run: pipenv install
+      - run: pipenv install --system
       - uses: pulumi/actions@v3
         with:
           command: preview
