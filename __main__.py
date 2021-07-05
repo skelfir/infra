@@ -1,5 +1,4 @@
 """A Python Pulumi program"""
-
 import pulumi
 
 import pulumi_digitalocean as do
@@ -12,8 +11,6 @@ config = pulumi.Config()
 region = config.require('region')
 db = config.require_object('db')
 cluster = config.require_object('cluster')
-#print(f'region: {region}')
-#print(f'db: {db}')
 
 db = do.Droplet(
 	db['name'],
