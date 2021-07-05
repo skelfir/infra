@@ -24,4 +24,5 @@ jobs:
           stack-name: dev
 #          digital-ocean-token: ${{ secrets.GITHUB_TOKEN }}
         env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
