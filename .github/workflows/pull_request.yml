@@ -14,9 +14,11 @@ jobs:
       - run: pipenv install --system
       - uses: pulumi/actions@v3
         with:
-          command: preview
+          diff: true
           stack-name: dev
+          command: preview
           comment-on-pr: true
+          edit-pr-comment: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
