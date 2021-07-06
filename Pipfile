@@ -6,9 +6,11 @@ name = "pypi"
 [packages]
 pulumi = "*"
 pulumi-digitalocean = "*"
+pulumi-kubernetes = "*"
 
 [dev-packages]
 ipython = "*"
+docker = "*"
 
 [requires]
 python_version = "3.7"
