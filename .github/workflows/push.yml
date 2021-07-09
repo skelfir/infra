@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   preview:
-    name: Update
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

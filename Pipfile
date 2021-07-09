@@ -7,6 +7,7 @@ name = "pypi"
 pulumi = "*"
 pulumi-digitalocean = "*"
 pulumi-kubernetes = "*"
+pulumi-docker = "*"
 
 [dev-packages]
 ipython = "*"
