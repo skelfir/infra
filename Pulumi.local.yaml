@@ -1,0 +1,15 @@
+config:
+  infra:region: local
+  infra:cluster_creation_command: kind create cluster --name {name} --config local-cluster-config.yaml
+  infra:cluster:
+    name: local-dev-cluster
+    nodes:
+      - role: control-plane
+      - role: worker
+      - role: worker
+  infra:db:
+    name: rethink
+    image: rethinkdb
+    ports:
+      - 28015:28015
+      - 9090:8080

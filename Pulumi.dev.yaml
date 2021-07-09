@@ -13,3 +13,7 @@ config:
       name: base
       size: s-1vcpu-2gb
       node_count: 1
+    worker_node_pool:
+      name: workers
+      size: s-1vcpu-2gb
+      node_count: 1

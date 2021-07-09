@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d20a2c0d14a4422abcd791630c4e36487f04b7b704017ceb2030f341260820fa"
+            "sha256": "105609cbac46f1a8554577f41fb2f5780276b8bd78b903209bfebab9cd9c1bd5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -160,10 +160,10 @@
         },
         "pulumi": {
             "hashes": [
-                "sha256:7dac891a48e8d683a427048c14ded1d753ededead3beac000f19a9b7ddf6e91f"
+                "sha256:976a9ae49829e1e00be78e3021be9bf1c5564450969ab2cfdce64b23d83e84b7"
             ],
             "index": "pypi",
-            "version": "==3.6.0"
+            "version": "==3.6.1"
         },
         "pulumi-digitalocean": {
             "hashes": [
@@ -171,6 +171,13 @@
             ],
             "index": "pypi",
             "version": "==4.4.1"
+        },
+        "pulumi-docker": {
+            "hashes": [
+                "sha256:dda0592a42cd11061f5295fb81f794b5eb4ab11a502b6ee7c6325d77c158ebc0"
+            ],
+            "index": "pypi",
+            "version": "==3.0.0"
         },
         "pulumi-kubernetes": {
             "hashes": [
