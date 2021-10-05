@@ -1,4 +1,4 @@
-name: Pulumi
+name: Deploy on merge to master
 on:
   workflow_dispatch:
   push:

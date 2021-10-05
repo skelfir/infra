@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy on comment
 on:
   issue_comment:
     types: [created]
