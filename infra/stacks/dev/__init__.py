@@ -3,7 +3,6 @@ import base64 as b64
 
 import pulumi_kubernetes as k8s
 import pulumi_digitalocean as do
-from infra.misc.rkubelog import RKubelog
 from pulumi_kubernetes.core import v1 as core
 from pulumi_kubernetes.helm import v3 as helm
 
@@ -150,16 +149,6 @@ metrics = helm.Chart(
 		depends_on=[cluster]
 	)
 )
-
-#rkubelog = RKubelog(
-#	'rkubelog',
-#	token=config.require('loggly_token'),
-#	opts=pulumi.ResourceOptions(
-#		parent=cluster,
-#		provider=k8s_provider,
-#		depends_on=[cluster]
-#	)
-#)
 
 ingress_status = ingress.resources['v1/Service:traefik/traefik-helm'].status
 ingress_ip = ingress_status.apply(lambda s: s.load_balancer.ingress[0].ip)

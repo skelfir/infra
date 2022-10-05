@@ -1,7 +1,6 @@
 import pulumi
 import pulumi_docker as docker
 import pulumi_kubernetes as k8s
-from infra.misc.rkubelog import RKubelog
 from infra.providers.k3d import K3dCluster
 from pulumi_kubernetes.core import v1 as core
 from pulumi_kubernetes.helm import v3 as helm
@@ -124,22 +123,9 @@ ingress = helm.Chart(
 #	)
 #)
 
-rkubelog = RKubelog(
-	'rkubelog',
-	token=config.require('loggly_token'),
-	opts=pulumi.ResourceOptions(
-		parent=cluster,
-		provider=k8s_provider,
-		depends_on=[cluster]
-	)
-)
-
 exports = {
 	'db-name': db_container.name,
 	'cluster-name': cluster.name,
 	'kubeconfig': cluster.kubeconfig
-	#'rkubelog_deployment': rkubelog_deployment,
 	#'cluster_role_binding': cluster_role_binding,
-	#'rkubelog_cluster_role': rkubelog_cluster_role,
-	#'rkubelog_service_account': rkubelog_service_account,
 }
