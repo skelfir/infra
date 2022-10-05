@@ -98,17 +98,25 @@ ingress_ns = core.Namespace(
 		provider=k8s_provider,
 	)
 )
+ingress_ns_name = ingress_ns.metadata.name.apply(lambda x: x)
+
+
+def fix_service_namespace(obj, opts):
+	if obj['kind'] == 'Service':
+		obj['metadata']['namespace'] = ingress_ns_name
+
+
 ingress = helm.Chart(
 	'traefik-helm',
 	helm.ChartOpts(
 		#skip_await=True,
-		namespace=ingress_ns.metadata.name.apply(lambda x: x),
-		version='1.87.2',
+		namespace=ingress_ns_name,
+		#version='1.87.2',
 		chart='traefik',
 		values={'rbac': {'enabled': True}},
-		transformations=[omit_crd_status],
+		transformations=[omit_crd_status, fix_service_namespace],
 		fetch_opts=helm.FetchOpts(
-			repo='https://charts.helm.sh/stable'
+			repo='https://helm.traefik.io/traefik'
 		)
 	),
 	opts=pulumi.ResourceOptions(
