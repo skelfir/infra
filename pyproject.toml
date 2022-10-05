@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "skelfir-infra"
+version = "0.1.0"
+description = ""
+authors = ["Logi Leifsson <logileifs@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "infra"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pulumi = "^3.40.2"
+pulumi-kubernetes = "^3.21.4"
+pulumi-docker = "^3.4.1"
+pulumi-random = "^4.8.2"
+pulumi-digitalocean = "^4.16.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
