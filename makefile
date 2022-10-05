@@ -1,7 +1,7 @@
 .PHONY: create destroy preview plan
 
 apply:
-	pulumi up --yes
+	pulumi up --yes --skip-preview
 
 plan:
 	pulumi preview --diff
