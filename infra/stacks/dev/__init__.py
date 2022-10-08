@@ -25,29 +25,6 @@ config = pulumi.Config()
 #)
 
 
-#ingress_lb = do.LoadBalancer(
-#	'ingress-loadbalancer',
-#	name="skelfir-lb",
-#	region=config.require('region'),
-#	size="lb-small",
-#	algorithm="round_robin",
-#	forwarding_rule={
-#		'entry_port': 80,
-#		'entry_protocol': "http",
-#
-#		'target_port': 80,
-#		'target_protocol': "http"
-#	},
-#
-#	lifecycle={
-#		ignore_changes = [
-#			forwarding_rule,
-#		]
-#	},
-#	#droplet_ids=[web.id]
-#)
-
-
 #cluster_cfg = config.require_object('cluster')
 #base_node_pool = do.KubernetesNodePool(
 #	auto_scale=True,
@@ -67,7 +44,7 @@ cluster = do.KubernetesCluster(
 	version=cluster_cfg['version'],
 	node_pool={
 		'auto_scale': True,
-		'max_nodes': 2,
+		'max_nodes': 1,
 		'min_nodes': 1,
 		'name': cluster_cfg['base_node_pool']['name'],
 		'size': cluster_cfg['base_node_pool']['size'],
@@ -106,14 +83,28 @@ def fix_service_namespace(obj, opts):
 		obj['metadata']['namespace'] = ingress_ns_name
 
 
+# Managed Lets Encrypt certificate is already registered with DigitalOcean
+certificate = do.get_certificate(name="skelfir")
+
 ingress = helm.Chart(
 	'traefik-helm',
 	helm.ChartOpts(
-		#skip_await=True,
 		namespace=ingress_ns_name,
-		#version='1.87.2',
 		chart='traefik',
-		values={'rbac': {'enabled': True}},
+		values={
+			'rbac': {
+				'enabled': True
+			},
+			'service': {
+				'annotations': {
+					'service.beta.kubernetes.io/do-loadbalancer-protocol': 'http',
+					'service.beta.kubernetes.io/do-loadbalancer-tls-ports': '443',
+					'service.beta.kubernetes.io/do-loadbalancer-algorithm': 'round_robin',
+					'service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https': 'true',
+					'service.beta.kubernetes.io/do-loadbalancer-certificate-id': certificate.uuid
+				}
+			}
+		},
 		transformations=[omit_crd_status, fix_service_namespace],
 		fetch_opts=helm.FetchOpts(
 			repo='https://helm.traefik.io/traefik'
@@ -158,8 +149,15 @@ metrics = helm.Chart(
 	)
 )
 
-ingress_status = ingress.resources['v1/Service:traefik/traefik-helm'].status
+ingress_svc = ingress.resources['v1/Service:traefik/traefik-helm']
+ingress_status = ingress_svc.status
 ingress_ip = ingress_status.apply(lambda s: s.load_balancer.ingress[0].ip)
+ingress_annotations = ingress_svc.metadata.annotations
+load_balancer_id = ingress_annotations.apply(
+	lambda x: x['kubernetes.digitalocean.com/load-balancer-id']
+)
+
+skelfir_lb = do.LoadBalancer.get('skelfir-lb', load_balancer_id)
 
 # No need to do this when domain has
 # already been registered with DigitalOcean
@@ -204,6 +202,11 @@ exports = {
 	#'ingress': ingress,
 	#'ingress_res': ingress_res,
 	#'ingress_status': ingress_status,
+	#'ingress_svc': ingress_svc,
+	#'ingress_annotations': ingress_annotations,
+	'load_balancer_id': load_balancer_id,
+	'certificate': certificate,
+	#'skelfir_lb': skelfir_lb,
 	'cluster_id': cluster.id,
 	'ingress_ip': ingress_ip,
 	'kube_config': kube_config,
