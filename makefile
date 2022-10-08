@@ -10,4 +10,4 @@ preview:
 	pulumi preview
 
 destroy:
-	pulumi destroy --yes
+	pulumi destroy --yes --skip-preview
