@@ -4,8 +4,9 @@ config:
   infra:cluster:
     base_node_pool:
       name: base
-      node_count: 2
+      node_count: 1
       size: s-1vcpu-2gb
+      #size: s-2vcpu-4gb
     name: dev-cluster
     region: lon1
     version: 1.24.4-do.0
