@@ -121,6 +121,30 @@ ingress = helm.Chart(
 	)
 )
 
+#newrelic = helm.Chart(
+#	'newrelic',
+#	helm.ChartOpts(
+#		skip_await=True,
+#		namespace='newrelic',
+#		chart='nri-bundle',
+#		values={
+#			'global': {
+#				'licenseKey': config.get('newrelic_licensekey'),
+#				'cluster': cluster.name
+#			},
+#			#'newrelic-infrastructure': {
+#			#	'privileged': False
+#			#},
+#			#'ksm': {'enabled': False},
+#			#'kubeEvents': {'enabled': False},
+#			'logging': {'enabled': True}
+#		},
+#		fetch_opts={
+#			'repo': 'https://helm-charts.newrelic.com'
+#		}
+#	)
+#)
+
 metrics = helm.Chart(
 	'metrics-server',
 	helm.ChartOpts(
@@ -157,7 +181,7 @@ load_balancer_id = ingress_annotations.apply(
 	lambda x: x['kubernetes.digitalocean.com/load-balancer-id']
 )
 
-skelfir_lb = do.LoadBalancer.get('skelfir-lb', load_balancer_id)
+#skelfir_lb = do.LoadBalancer.get('skelfir-lb', load_balancer_id)
 
 # No need to do this when domain has
 # already been registered with DigitalOcean
